@@ -1,0 +1,123 @@
+// ─────────────────────────────────────────────────────────────
+//  Portafolio Lukas Melgar · Neon PostgreSQL + Prisma ORM
+//  La URL de conexión se define en prisma.config.ts (Prisma 7).
+// ─────────────────────────────────────────────────────────────
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../server/generated/prisma"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Grupos visuales de la sección Habilidades.
+enum SkillGroup {
+  AREA  // "Habilidades técnicas": medidores circulares (Frontend, Backend…)
+  STACK // "Stack de desarrollo": barras de nivel (HTML, C#, SQL…)
+  TOOL  // "Herramientas": cuadrícula sin porcentaje (Git, VS Code…)
+}
+
+/// Datos generales del portafolio. Fila única (id = 1).
+model Profile {
+  id              Int      @id @default(1)
+  // Identidad
+  firstName       String
+  lastName        String
+  role            String
+  location        String
+  avatarUrl       String?
+  // Inicio
+  kicker          String   @default("Tecnología · Diseño · Innovación")
+  headline        String
+  heroQuote       String?
+  availableFor    String?
+  // Sobre mí
+  bio             String   // Párrafos separados por una línea en blanco
+  aboutQuote      String?
+  focusText       String?
+  focusPoints     String[] @default([])
+  strengths       Json     @default("[]") // [{ "title": "...", "description": "..." }]
+  // Textos de sección
+  projectsIntro   String?
+  skillsIntro     String?
+  skillsQuote     String?
+  // Contacto
+  email           String
+  phone           String?
+  whatsapp        String? // Solo dígitos con código de país: 51984182233
+  whatsappMessage String?
+  contactPitch    String?
+  contactPoints   String[] @default([])
+  availability    String?
+  workModes       String?
+  // Enlaces
+  linkedinUrl     String?
+  githubUrl       String?
+  cvUrl           String?
+  updatedAt       DateTime @updatedAt
+}
+
+/// Hitos de "Mi trayectoria".
+model Experience {
+  id          String   @id @default(cuid())
+  period      String   // "2023 – 2026"
+  title       String
+  description String
+  place       String
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([order])
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  title       String
+  summary     String
+  description String?
+  categories  String[] @default([]) // Alimentan los filtros: "Web", "Backend", "IoT / 3D"
+  tags        String[] @default([])
+  coverLabel  String?  // Texto de portada cuando no hay imagen ("SGC")
+  imageUrl    String?  // URL pública en Cloudflare R2
+  liveUrl     String?
+  repoUrl     String?
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, order])
+}
+
+model Skill {
+  id         String     @id @default(cuid())
+  name       String
+  abbr       String?    // Monograma corto: "JS", "C#"
+  caption    String?    // Subtítulo en la cuadrícula del inicio: "Frontend"
+  level      Int?       // 0–100 (ignorado en TOOL)
+  group      SkillGroup @default(STACK)
+  showInHero Boolean    @default(false)
+  order      Int        @default(0)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@index([group, order])
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  features    String[] @default([])
+  icon        String?  // Clave de icono: code | server | cpu | box | database | palette | rocket | file
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([order])
+}

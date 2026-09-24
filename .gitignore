@@ -1,0 +1,16 @@
+node_modules
+dist
+server/generated
+
+# Secretos
+.env
+.env.*
+!.env.example
+
+# Sistema / editores
+.DS_Store
+Thumbs.db
+*.log
+.vscode/*
+!.vscode/extensions.json
+.idea
