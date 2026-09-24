@@ -90,6 +90,8 @@ DIRECT_URL="postgresql://neondb_owner:xxxx@ep-nombre-123456.sa-east-1.aws.neon.t
 
 > ¿Por qué dos URLs? La app usa el pooler (muchas conexiones cortas); las migraciones necesitan la conexión directa.
 
+> ⚠️ **Base de datos exclusiva.** Si usas el mismo proyecto Neon para otra app (p. ej. Universo Agustino), el portafolio debe tener **su propia base**: `CREATE DATABASE portafolio` y `/portafolio` en lugar de `/neondb` en ambas URLs. Si dos apps con Prisma comparten base, las migraciones de una borran las tablas de la otra.
+
 5. Crea las tablas y carga tu contenido inicial:
 
 ```bash
