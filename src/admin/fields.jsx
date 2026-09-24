@@ -343,7 +343,7 @@ function ImageInput({ value, onChange, folder, aspect = 'aspect-[16/10]' }) {
   const busy = progress !== null
 
   return (
-    <div className={aspect === 'aspect-square' ? 'max-w-56' : undefined}>
+    <div className={aspect === 'aspect-square' || aspect === 'aspect-[4/5]' ? 'max-w-56' : undefined}>
       <div
         onDragOver={(event) => {
           event.preventDefault()

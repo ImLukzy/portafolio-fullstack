@@ -11,7 +11,7 @@ const BUTTON_BASE =
   'active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0'
 
 const BUTTON_SIZES = {
-  sm: 'h-8 px-3.5 text-[13px]',
+  sm: 'h-8 px-3.5 text-[0.8125rem]',
   md: 'h-10 px-5 text-sm',
   lg: 'h-11 px-6 text-sm',
   icon: 'size-9',
@@ -19,11 +19,11 @@ const BUTTON_SIZES = {
 
 const BUTTON_VARIANTS = {
   primary:
-    'bg-accent text-accent-ink hover:bg-accent-soft shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_8px_24px_-10px_rgb(139_92_246/0.7)]',
+    'bg-accent text-accent-ink hover:bg-accent-soft shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_0.5rem_1.5rem_-0.625rem_rgb(139_92_246/0.7)]',
   secondary: 'border border-line-strong bg-surface-2 text-ink hover:border-[#3b3b4c] hover:bg-surface-3',
   ghost: 'text-muted hover:bg-white/5 hover:text-ink',
   whatsapp:
-    'bg-whatsapp text-[#052e16] hover:bg-[#44e585] shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_8px_24px_-12px_rgb(37_211_102/0.6)]',
+    'bg-whatsapp text-[#052e16] hover:bg-[#44e585] shadow-[inset_0_1px_0_rgb(255_255_255/0.35),0_0.5rem_1.5rem_-0.75rem_rgb(37_211_102/0.6)]',
   danger: 'border border-danger/30 bg-danger/10 text-danger hover:bg-danger/20',
 }
 
@@ -174,7 +174,7 @@ export function Tags({ items, className }) {
   return (
     <ul className={cn('flex flex-wrap gap-1.5', className)}>
       {items.map((tag) => (
-        <li key={tag} className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[11px] text-muted">
+        <li key={tag} className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[0.6875rem] text-muted">
           {tag}
         </li>
       ))}
@@ -192,13 +192,14 @@ export function PulseDot({ className }) {
 }
 
 /** Imagen que aparece con un fundido al cargar, dentro de una caja de tamaño fijo. */
-export function FadeImage({ src, alt = '', className }) {
+export function FadeImage({ src, alt = '', className, priority = false }) {
   const [loaded, setLoaded] = useState(false)
   return (
     <img
       src={src}
       alt={alt}
-      loading="lazy"
+      loading={priority ? 'eager' : 'lazy'}
+      fetchPriority={priority ? 'high' : undefined}
       decoding="async"
       onLoad={() => setLoaded(true)}
       className={cn(

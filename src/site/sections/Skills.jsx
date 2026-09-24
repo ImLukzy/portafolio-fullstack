@@ -31,9 +31,9 @@ export function Skills({ data }) {
   const tools = skills.filter((skill) => skill.group === 'TOOL')
 
   return (
-    <section id="habilidades" className="py-24 lg:py-32">
+    <section id="habilidades" className="py-24 site-lg:py-32">
       <div className="container-page">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-end lg:gap-12">
+        <div className="grid gap-10 site-lg:grid-cols-2 site-lg:items-end site-lg:gap-12">
           <RevealGroup>
             <RevealItem as="p" className="kicker">
               {profile.kicker}
@@ -42,7 +42,7 @@ export function Skills({ data }) {
               <SectionTitle script="Habilidades">Servicios</SectionTitle>
             </RevealItem>
             {profile.skillsIntro && (
-              <RevealItem as="p" className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
+              <RevealItem as="p" className="mt-5 max-w-md text-[0.9375rem] leading-relaxed text-muted">
                 {profile.skillsIntro}
               </RevealItem>
             )}
@@ -64,11 +64,11 @@ export function Skills({ data }) {
         </div>
 
         {(areas.length > 0 || stack.length > 0) && (
-          <div className="mt-14 grid gap-3 lg:grid-cols-12">
+          <div className="mt-14 grid gap-3 site-lg:grid-cols-12">
             {areas.length > 0 && (
-              <Reveal className={stack.length ? 'lg:col-span-5' : 'lg:col-span-12'}>
+              <Reveal className={stack.length ? 'site-lg:col-span-5' : 'site-lg:col-span-12'}>
                 <Panel title="Habilidades técnicas">
-                  <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-y-6 sm:grid-cols-4 site-lg:grid-cols-2 site-xl:grid-cols-4">
                     {areas.map((skill, index) => (
                       <RingMeter key={skill.id} label={skill.name} value={skill.level ?? 0} delay={index * 0.08} />
                     ))}
@@ -77,7 +77,7 @@ export function Skills({ data }) {
               </Reveal>
             )}
             {stack.length > 0 && (
-              <Reveal delay={0.08} className={areas.length ? 'lg:col-span-7' : 'lg:col-span-12'}>
+              <Reveal delay={0.08} className={areas.length ? 'site-lg:col-span-7' : 'site-lg:col-span-12'}>
                 <Panel title="Stack de desarrollo">
                   <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
                     {stack.map((skill, index) => (
@@ -93,17 +93,17 @@ export function Skills({ data }) {
         {services.length > 0 && (
           <>
             <SubHeading className="mt-20">Servicios que ofrezco</SubHeading>
-            <RevealGroup className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <RevealGroup className="mt-6 grid gap-3 sm:grid-cols-2 site-lg:grid-cols-4">
               {services.map((service) => {
                 const Icon = SERVICE_ICON_COMPONENTS[service.icon] ?? Sparkles
                 return (
                   <RevealItem key={service.id}>
                     <SpotlightCard className="surface flex h-full flex-col p-5">
                       <span className="grid size-10 place-items-center rounded-xl bg-accent/10 text-accent-soft ring-1 ring-accent/20">
-                        <Icon className="size-[18px]" />
+                        <Icon className="size-[1.125rem]" />
                       </span>
-                      <h4 className="mt-4 text-[15px] font-medium tracking-tight">{service.title}</h4>
-                      <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{service.description}</p>
+                      <h4 className="mt-4 text-[0.9375rem] font-medium tracking-tight">{service.title}</h4>
+                      <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">{service.description}</p>
                       <CheckList items={service.features} className="mt-4 border-t border-line pt-3" />
                     </SpotlightCard>
                   </RevealItem>
@@ -116,7 +116,7 @@ export function Skills({ data }) {
         {tools.length > 0 && (
           <>
             <SubHeading className="mt-20">Herramientas</SubHeading>
-            <RevealGroup as="ul" stagger={0.03} className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-8">
+            <RevealGroup as="ul" stagger={0.03} className="mt-6 grid grid-cols-3 gap-2 sm:grid-cols-4 site-lg:grid-cols-8">
               {tools.map((tool) => (
                 <RevealItem
                   as="li"
@@ -124,7 +124,7 @@ export function Skills({ data }) {
                   className="group rounded-xl border border-line bg-surface px-2 py-3 text-center transition-colors duration-200 hover:border-accent/30 hover:bg-surface-2"
                 >
                   <div className="text-sm font-semibold text-accent-soft">{tool.abbr || tool.name.slice(0, 2)}</div>
-                  <div className="mt-0.5 truncate text-[11px] text-subtle transition-colors group-hover:text-muted">
+                  <div className="mt-0.5 truncate text-[0.6875rem] text-subtle transition-colors group-hover:text-muted">
                     {tool.name}
                   </div>
                 </RevealItem>
@@ -153,7 +153,7 @@ function RingMeter({ label, value, delay }) {
 
   return (
     <div ref={ref} className="flex flex-col items-center gap-2.5">
-      <div className="relative size-[76px]">
+      <div className="relative size-[4.75rem]">
         <svg viewBox="0 0 64 64" className="size-full -rotate-90" aria-hidden>
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
@@ -178,7 +178,7 @@ function RingMeter({ label, value, delay }) {
         <span className="absolute inset-0 grid place-items-center text-sm font-semibold">
           <span>
             <CountUp value={value} delay={delay} />
-            <span className="text-[11px] text-muted">%</span>
+            <span className="text-[0.6875rem] text-muted">%</span>
           </span>
         </span>
       </div>
@@ -196,7 +196,7 @@ function BarMeter({ label, value, delay }) {
 
   return (
     <div ref={ref}>
-      <div className="flex items-baseline justify-between text-[13px]">
+      <div className="flex items-baseline justify-between text-[0.8125rem]">
         <span className="font-medium">{label}</span>
         <span className="text-muted">
           <CountUp value={value} delay={delay} />%

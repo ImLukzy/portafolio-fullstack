@@ -180,6 +180,15 @@ Recomendado: **Render** (Web Service), Railway o Fly.io. El mismo proceso sirve 
 - **Movimiento**: curvas `cubic-bezier(0.23, 1, 0.32, 1)` para entradas y muelles amortiguados para indicadores (pill del menú, filtros, pestañas). Las salidas son más rápidas que las entradas. Se respeta "reducir movimiento" del sistema.
 - **Tokens**: todos los colores, tipografías y curvas viven en `src/styles.css` (`@theme`). Acento lila `#a78bfa`, fondo `#07070b`, Inter Variable + Instrument Serif itálica.
 
+## Escala 125 % del sitio público
+
+En escritorio (≥ 1024 px) el sitio público se muestra al 125 %, como con el zoom del navegador; **`/admin` no se escala**.
+
+- Un script en `index.html` añade `html.site-scale` antes del primer pintado (nunca en `/admin`) y `styles.css` fija `font-size: 125%` → 1rem = 20 px. `src/App.jsx` mantiene la clase al navegar dentro de la SPA.
+- Para que todo escale en bloque, el sitio usa **rem** (no px) en tamaños, espacios y sombras. Solo los trazos finos (1–2 px) quedan en px.
+- En `src/site/` usa **`site-lg:` y `site-xl:`** en lugar de `lg:`/`xl:` (breakpoints desplazados ×1,25, como hace el zoom real). `sm:` y `md:` no cambian. El admin sigue con los breakpoints estándar.
+- Para otra escala (p. ej. 110 %), cambia `font-size` en `html.site-scale` y los valores `--breakpoint-site-lg/xl` y los cortes de `container-page` en `src/styles.css` (64rem × escala, 80rem × escala).
+
 ## Problemas frecuentes
 
 - **`No se pudo iniciar en el puerto 3001`** → otro programa usa ese puerto: cambia `PORT` en `.env`.

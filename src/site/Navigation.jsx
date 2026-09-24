@@ -1,6 +1,14 @@
 import { CodeXml, FolderKanban, House, Mail, Menu, User, X, ArrowRight } from 'lucide-react'
-import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
-import { useEffect, useState } from 'react'
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useMotionValueEvent,
+  useScroll,
+  useSpring,
+  useTransform,
+} from 'motion/react'
+import { useEffect, useRef, useState } from 'react'
 import { ButtonLink, cn, nudge } from '../components/ui.jsx'
 import { EASE_OUT, SPRING_SNAPPY } from '../lib/motion.js'
 
@@ -40,7 +48,7 @@ export function Navbar({ active }) {
         <a
           href="#inicio"
           aria-label="Ir al inicio"
-          className="grid size-9 place-items-center rounded-full border border-accent/40 text-[13px] font-semibold text-accent transition-colors duration-150 hover:border-accent hover:bg-accent/10"
+          className="grid size-9 place-items-center rounded-full border border-accent/40 text-[0.8125rem] font-semibold text-accent transition-colors duration-150 hover:border-accent hover:bg-accent/10"
         >
           LM
         </a>
@@ -56,7 +64,7 @@ export function Navbar({ active }) {
                 key={section.id}
                 href={`#${section.id}`}
                 aria-current={isActive ? 'location' : undefined}
-                className="relative rounded-full px-3.5 py-1.5 text-[13px] transition-colors duration-150"
+                className="relative rounded-full px-3.5 py-1.5 text-[0.8125rem] transition-colors duration-150"
               >
                 {isActive && (
                   <motion.span
@@ -110,7 +118,7 @@ export function Navbar({ active }) {
                     href={`#${id}`}
                     onClick={() => setOpen(false)}
                     className={cn(
-                      'flex items-center gap-3 rounded-xl px-3 py-3 text-[15px] transition-colors',
+                      'flex items-center gap-3 rounded-xl px-3 py-3 text-[0.9375rem] transition-colors',
                       active === id ? 'bg-surface-2 text-ink' : 'text-muted hover:text-ink',
                     )}
                   >
@@ -127,46 +135,70 @@ export function Navbar({ active }) {
   )
 }
 
+/** Dock lateral de cristal esmerilado con magnificación al acercar el cursor. */
 export function SideRail({ active }) {
+  const pointerY = useMotionValue(Infinity)
   return (
-    <aside className="fixed top-1/2 left-4 z-30 hidden -translate-y-1/2 lg:block">
+    <aside className="fixed top-1/2 left-5 z-30 hidden -translate-y-1/2 site-lg:block">
       <nav
         aria-label="Secciones"
-        className="flex flex-col gap-1 rounded-full border border-line bg-surface/80 p-1.5 backdrop-blur"
+        onPointerMove={(event) => pointerY.set(event.clientY)}
+        onPointerLeave={() => pointerY.set(Infinity)}
+        className="glass-dark flex flex-col gap-2 rounded-full p-2"
       >
-        {SECTIONS.map(({ id, label, icon: Icon }) => {
-          const isActive = active === id
-          return (
-            <a
-              key={id}
-              href={`#${id}`}
-              aria-label={label}
-              aria-current={isActive ? 'location' : undefined}
-              className="group relative grid size-9 place-items-center rounded-full"
-            >
-              {isActive && (
-                <motion.span
-                  layoutId="rail-pill"
-                  transition={SPRING_SNAPPY}
-                  className="absolute inset-0 rounded-full bg-accent/15 ring-1 ring-accent/40"
-                />
-              )}
-              <Icon
-                className={cn(
-                  'relative size-4 transition-colors duration-150',
-                  isActive ? 'text-accent-soft' : 'text-subtle group-hover:text-ink',
-                )}
-              />
-              <span
-                role="tooltip"
-                className="pointer-events-none absolute left-full ml-3 -translate-x-1 rounded-md border border-line bg-surface-2 px-2 py-1 text-xs whitespace-nowrap text-ink opacity-0 transition-[opacity,transform] duration-150 ease-snappy group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
-              >
-                {label}
-              </span>
-            </a>
-          )
-        })}
+        {SECTIONS.map((section) => (
+          <DockItem key={section.id} {...section} active={active === section.id} pointerY={pointerY} />
+        ))}
       </nav>
     </aside>
+  )
+}
+
+function DockItem({ id, label, icon: Icon, active, pointerY }) {
+  const ref = useRef(null)
+  // Distancia del cursor al centro del icono → escala con muelle (solo transform: sin reflow).
+  const distance = useTransform(pointerY, (y) => {
+    const rect = ref.current?.getBoundingClientRect()
+    return rect ? y - (rect.top + rect.height / 2) : Infinity
+  })
+  const scale = useSpring(useTransform(distance, [-84, 0, 84], [1, 1.22, 1]), {
+    stiffness: 380,
+    damping: 26,
+    mass: 0.4,
+  })
+
+  return (
+    <a
+      ref={ref}
+      href={`#${id}`}
+      aria-label={label}
+      aria-current={active ? 'location' : undefined}
+      className="group relative grid size-10 place-items-center rounded-full"
+    >
+      <motion.span
+        style={{ scale }}
+        className="relative grid size-10 place-items-center rounded-full transition-colors duration-150 group-hover:bg-white/[0.06]"
+      >
+        {active && (
+          <motion.span
+            layoutId="rail-pill"
+            transition={SPRING_SNAPPY}
+            className="absolute inset-0 rounded-full bg-accent/20 shadow-[0_0_1.375rem_-0.25rem_rgb(139_92_246/0.85)] ring-1 ring-accent/50"
+          />
+        )}
+        <Icon
+          className={cn(
+            'relative size-[1.125rem] transition-colors duration-150',
+            active ? 'text-accent-soft' : 'text-muted group-hover:text-ink',
+          )}
+        />
+      </motion.span>
+      <span
+        role="tooltip"
+        className="glass-dark pointer-events-none absolute left-full ml-4 -translate-x-1 rounded-lg px-2.5 py-1 text-xs whitespace-nowrap text-ink opacity-0 transition-[opacity,translate] duration-150 ease-snappy group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
+      >
+        {label}
+      </span>
+    </a>
   )
 }

@@ -36,9 +36,9 @@ export function Projects({ data }) {
   if (!featured) return null
 
   return (
-    <section id="proyectos" className="py-24 lg:py-32">
+    <section id="proyectos" className="py-24 site-lg:py-32">
       <div className="container-page">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-12">
+        <div className="grid gap-10 site-lg:grid-cols-[0.9fr_1.1fr] site-lg:items-center site-lg:gap-12">
           <RevealGroup>
             <RevealItem as="p" className="kicker">
               {profile.kicker}
@@ -47,7 +47,7 @@ export function Projects({ data }) {
               <SectionTitle script="Mis">Proyectos</SectionTitle>
             </RevealItem>
             {profile.projectsIntro && (
-              <RevealItem as="p" className="mt-5 max-w-md text-[15px] leading-relaxed text-muted">
+              <RevealItem as="p" className="mt-5 max-w-md text-[0.9375rem] leading-relaxed text-muted">
                 {profile.projectsIntro}
               </RevealItem>
             )}
@@ -73,7 +73,7 @@ export function Projects({ data }) {
             <SubHeading className="mt-20">Más proyectos</SubHeading>
             {/* Altura mínima = la de "Todos": filtrar nunca desplaza las secciones de abajo. */}
             <div ref={minHeight.ref} style={{ minHeight: minHeight.value }} className="mt-6">
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid gap-3 sm:grid-cols-2 site-lg:grid-cols-4">
                 <AnimatePresence mode="popLayout" initial={false}>
                   {visible.map((project) => (
                     <motion.div
@@ -138,7 +138,7 @@ function FilterChips({ categories, projects, value, onChange }) {
             aria-pressed={active}
             onClick={() => onChange(chip.value)}
             className={cn(
-              'relative h-9 rounded-full border px-4 text-[13px] transition-[border-color,transform] duration-150 ease-snappy active:scale-[0.97]',
+              'relative h-9 rounded-full border px-4 text-[0.8125rem] transition-[border-color,transform] duration-150 ease-snappy active:scale-[0.97]',
               active ? 'border-transparent' : 'border-line hover:border-line-strong',
             )}
           >
@@ -152,7 +152,7 @@ function FilterChips({ categories, projects, value, onChange }) {
               )}
             >
               {chip.label}
-              <span className={cn('text-[11px] tabular-nums', active ? 'text-accent-ink/60' : 'text-subtle')}>
+              <span className={cn('text-[0.6875rem] tabular-nums', active ? 'text-accent-ink/60' : 'text-subtle')}>
                 {chip.count}
               </span>
             </span>
@@ -165,9 +165,9 @@ function FilterChips({ categories, projects, value, onChange }) {
 
 function FeaturedProject({ project, onOpen }) {
   return (
-    <SpotlightCard className="grid items-center gap-6 overflow-hidden rounded-2xl border border-accent/25 bg-surface p-5 shadow-[0_40px_100px_-50px_rgb(139_92_246/0.6)] sm:grid-cols-[1fr_0.95fr] sm:p-6">
+    <SpotlightCard className="grid items-center gap-6 overflow-hidden rounded-2xl border border-accent/25 bg-surface p-5 shadow-[0_2.5rem_6.25rem_-3.125rem_rgb(139_92_246/0.6)] sm:grid-cols-[1fr_0.95fr] sm:p-6">
       <div>
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[11px] font-medium text-accent-soft">
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[0.6875rem] font-medium text-accent-soft">
           <Star className="size-3 fill-current" />
           Proyecto destacado
         </span>
@@ -200,8 +200,8 @@ function ProjectCard({ project, onOpen }) {
     >
       <ProjectCover project={project} className="aspect-[16/10] w-full border-b border-line" />
       <div className="flex flex-1 flex-col p-4">
-        <h4 className="text-[15px] font-medium tracking-tight">{project.title}</h4>
-        <p className="mt-1.5 line-clamp-2 text-[13px] leading-relaxed text-muted">{project.summary}</p>
+        <h4 className="text-[0.9375rem] font-medium tracking-tight">{project.title}</h4>
+        <p className="mt-1.5 line-clamp-2 text-[0.8125rem] leading-relaxed text-muted">{project.summary}</p>
         <Tags items={project.tags} className="mt-auto pt-4" />
       </div>
     </SpotlightCard>
@@ -265,7 +265,7 @@ function ProjectDialog({ project, onClose }) {
               <h3 id="project-dialog-title" className="mt-2 text-2xl font-semibold tracking-tight text-balance">
                 {project.title}
               </h3>
-              <p className="mt-3 text-[15px] leading-relaxed whitespace-pre-line text-muted">
+              <p className="mt-3 text-[0.9375rem] leading-relaxed whitespace-pre-line text-muted">
                 {project.description || project.summary}
               </p>
               <Tags items={project.tags} className="mt-5" />

@@ -14,6 +14,12 @@
     <meta property="og:title" content="Lukas Melgar Casimiro · Desarrollador Full Stack" />
     <meta property="og:description" content="Soluciones digitales que combinan tecnología, diseño y experiencia." />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Escala 125 % solo en el sitio público, aplicada antes del primer pintado
+         (sin parpadeo). /admin conserva su tamaño estándar. Misma regla que isAdminPath() en src/App.jsx. -->
+    <script>
+      var p = location.pathname
+      if (p !== '/admin' && p.indexOf('/admin/') !== 0) document.documentElement.classList.add('site-scale')
+    </script>
     <!-- Fondo oscuro antes de que cargue el JS: sin destello blanco. -->
     <style>html,body{background:#07070b;color-scheme:dark}</style>
   </head>

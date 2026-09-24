@@ -11,13 +11,13 @@ export function Contact({ data }) {
   const { profile, skills } = data
 
   return (
-    <section id="contacto" className="relative isolate overflow-hidden py-24 lg:py-32">
+    <section id="contacto" className="relative isolate overflow-hidden py-24 site-lg:py-32">
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-[-30%] left-1/2 -z-10 size-[44rem] -translate-x-1/2 rounded-full bg-accent-strong/10 blur-[140px]"
+        className="pointer-events-none absolute bottom-[-30%] left-1/2 -z-10 size-[44rem] -translate-x-1/2 rounded-full bg-accent-strong/10 blur-[8.75rem]"
       />
       <div className="container-page">
-        <div className="grid gap-4 lg:grid-cols-[1.05fr_0.9fr_1fr] lg:gap-5">
+        <div className="grid gap-4 site-lg:grid-cols-[1.05fr_0.9fr_1fr] site-lg:gap-5">
           <RevealGroup className="flex flex-col">
             <RevealItem
               as="h2"
@@ -30,11 +30,11 @@ export function Contact({ data }) {
               <span className="text-gradient block">Juntos</span>
             </RevealItem>
             {profile.availableFor && (
-              <RevealItem as="p" className="mt-5 text-[15px] leading-relaxed text-muted">
+              <RevealItem as="p" className="mt-5 text-[0.9375rem] leading-relaxed text-muted">
                 Disponible para <span className="font-medium text-ink">{profile.availableFor.toLowerCase()}</span>.
               </RevealItem>
             )}
-            <RevealItem className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+            <RevealItem className="mt-6 grid gap-2 sm:grid-cols-2 site-lg:grid-cols-1">
               {profile.phone && (
                 <ContactCard icon={Phone} label="Teléfono" value={profile.phone} href={telHref(profile)} />
               )}
@@ -87,7 +87,7 @@ function ContactCard({ icon: Icon, label, value, href }) {
         <Icon className="size-4" />
       </span>
       <a href={href} className="min-w-0 flex-1">
-        <span className="block text-[10px] font-medium tracking-[0.2em] text-subtle uppercase">{label}</span>
+        <span className="block text-[0.625rem] font-medium tracking-[0.2em] text-subtle uppercase">{label}</span>
         <span className="block truncate text-sm transition-colors hover:text-accent-soft">{value}</span>
       </a>
       <button
@@ -135,9 +135,9 @@ function CodeCard({ profile, skills }) {
         <span className="size-2.5 rounded-full bg-[#ff5f57]/70" />
         <span className="size-2.5 rounded-full bg-[#febc2e]/70" />
         <span className="size-2.5 rounded-full bg-[#28c840]/70" />
-        <span className="ml-3 font-mono text-[11px] text-subtle">perfil.ts</span>
+        <span className="ml-3 font-mono text-[0.6875rem] text-subtle">perfil.ts</span>
       </div>
-      <pre className="flex-1 overflow-x-auto p-5 font-mono text-[12.5px] leading-6">
+      <pre className="flex-1 overflow-x-auto p-5 font-mono text-[0.7813rem] leading-6">
         <code>
           <K>const</K> <span className="text-ink">perfil</span> <D>=</D> <D>{'{'}</D>
           {'\n  '}
@@ -170,14 +170,14 @@ function CodeCard({ profile, skills }) {
           <D>{'}'}</D>
           <span
             aria-hidden
-            className="ml-0.5 inline-block h-4 w-[7px] translate-y-[3px] bg-accent/80 [animation:caret-blink_1.1s_steps(1)_infinite] motion-reduce:animate-none"
+            className="ml-0.5 inline-block h-4 w-[0.4375rem] translate-y-[0.1875rem] bg-accent/80 [animation:caret-blink_1.1s_steps(1)_infinite] motion-reduce:animate-none"
           />
         </code>
       </pre>
       {chips.length > 0 && (
         <div className="flex flex-wrap gap-1.5 border-t border-line p-4">
           {chips.map((skill) => (
-            <span key={skill.id} className="rounded-full border border-line bg-surface-2 px-2.5 py-1 text-[11px] text-muted">
+            <span key={skill.id} className="rounded-full border border-line bg-surface-2 px-2.5 py-1 text-[0.6875rem] text-muted">
               {skill.name}
             </span>
           ))}
@@ -214,7 +214,7 @@ function WhatsAppCard({ profile }) {
         <div className="mt-5 flex items-center gap-3 rounded-xl border border-line bg-surface-2 p-3">
           <WhatsAppIcon className="size-5 text-whatsapp" />
           <div>
-            <div className="text-[10px] font-medium tracking-[0.2em] text-subtle uppercase">WhatsApp personal</div>
+            <div className="text-[0.625rem] font-medium tracking-[0.2em] text-subtle uppercase">WhatsApp personal</div>
             <div className="text-sm font-medium tabular-nums">{formatWhatsApp(profile.whatsapp)}</div>
           </div>
         </div>
@@ -268,7 +268,7 @@ function AvailabilityBar({ profile }) {
     <div className="surface mt-4 grid gap-4 p-5 sm:grid-cols-3 sm:items-center">
       {items.map((item) => (
         <div key={item.label}>
-          <div className="text-[10px] font-medium tracking-[0.22em] text-accent/80 uppercase">{item.label}</div>
+          <div className="text-[0.625rem] font-medium tracking-[0.22em] text-accent/80 uppercase">{item.label}</div>
           <div className="mt-0.5 flex items-center gap-2 text-sm">
             {item.live && <PulseDot />}
             {item.value}

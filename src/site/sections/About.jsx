@@ -18,18 +18,18 @@ export function About({ data }) {
   const { profile, experiences } = data
 
   return (
-    <section id="perfil" className="py-24 lg:py-32">
+    <section id="perfil" className="py-24 site-lg:py-32">
       <div className="container-page">
-        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.9fr_0.7fr] lg:items-center lg:gap-8">
+        <div className="grid gap-6 site-lg:grid-cols-[1.15fr_0.9fr_0.7fr] site-lg:items-center site-lg:gap-8">
           <RevealGroup>
             <RevealItem>
               <SectionTitle script="Sobre">Mí</SectionTitle>
             </RevealItem>
-            <RevealItem as="p" className="mt-5 text-[12px] font-medium tracking-[0.3em] text-ink/80 uppercase">
+            <RevealItem as="p" className="mt-5 text-[0.75rem] font-medium tracking-[0.3em] text-ink/80 uppercase">
               {profile.role}
             </RevealItem>
             {paragraphs(profile.bio).map((paragraph) => (
-              <RevealItem as="p" key={paragraph} className="mt-4 max-w-lg text-[15px] leading-relaxed text-pretty text-muted">
+              <RevealItem as="p" key={paragraph} className="mt-4 max-w-lg text-[0.9375rem] leading-relaxed text-pretty text-muted">
                 {paragraph}
               </RevealItem>
             ))}
@@ -43,7 +43,7 @@ export function About({ data }) {
           <Reveal delay={0.1}>
             <SpotlightCard className="surface p-6">
               <p className="kicker">Mi enfoque</p>
-              {profile.focusText && <p className="mt-3 text-[15px] leading-relaxed text-ink/90">{profile.focusText}</p>}
+              {profile.focusText && <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink/90">{profile.focusText}</p>}
               <CheckList items={profile.focusPoints} className="mt-5" />
             </SpotlightCard>
           </Reveal>
@@ -56,7 +56,7 @@ export function About({ data }) {
         {profile.strengths.length > 0 && (
           <>
             <SubHeading className="mt-20">Mis fortalezas</SubHeading>
-            <RevealGroup className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <RevealGroup className="mt-6 grid gap-3 sm:grid-cols-2 site-lg:grid-cols-4">
               {profile.strengths.map((strength, index) => {
                 const Icon = STRENGTH_ICONS[index % STRENGTH_ICONS.length]
                 return (
@@ -65,8 +65,8 @@ export function About({ data }) {
                       <span className="grid size-9 place-items-center rounded-lg bg-accent/10 text-accent-soft ring-1 ring-accent/20">
                         <Icon className="size-4" />
                       </span>
-                      <h4 className="mt-4 text-[15px] font-medium tracking-tight">{strength.title}</h4>
-                      <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{strength.description}</p>
+                      <h4 className="mt-4 text-[0.9375rem] font-medium tracking-tight">{strength.title}</h4>
+                      <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">{strength.description}</p>
                     </SpotlightCard>
                   </RevealItem>
                 )
@@ -116,7 +116,7 @@ function ProfileCard({ profile }) {
       </div>
       <p className="mt-5 font-serif text-3xl leading-none text-accent italic">{profile.firstName}</p>
       <p className="mt-2 text-sm font-semibold tracking-[0.12em] uppercase">{profile.lastName}</p>
-      <p className="mt-1 text-[13px] text-muted">{profile.role}</p>
+      <p className="mt-1 text-[0.8125rem] text-muted">{profile.role}</p>
       <p className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-surface-2 px-3 py-1 text-xs text-ink/90">
         <MapPin className="size-3 text-accent" />
         {profile.location}
@@ -127,13 +127,13 @@ function ProfileCard({ profile }) {
 
 function Timeline({ items }) {
   return (
-    <RevealGroup as="ol" className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4" stagger={0.1}>
+    <RevealGroup as="ol" className="mt-8 grid gap-3 sm:grid-cols-2 site-lg:grid-cols-4 site-lg:gap-4" stagger={0.1}>
       {items.map((item, index) => (
-        <RevealItem as="li" key={item.id} className="relative lg:pt-9">
+        <RevealItem as="li" key={item.id} className="relative site-lg:pt-9">
           {/* Riel: cada hito dibuja su tramo hasta el siguiente. */}
           <motion.span
             aria-hidden
-            className="absolute top-[7px] left-4 hidden h-px w-[calc(100%+1rem)] origin-left bg-linear-to-r from-accent/60 to-line-strong lg:block"
+            className="absolute top-[0.4375rem] left-4 hidden h-px w-[calc(100%+1rem)] origin-left bg-linear-to-r from-accent/60 to-line-strong site-lg:block"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: index === items.length - 1 ? 0.4 : 1 }}
             viewport={VIEWPORT}
@@ -141,14 +141,14 @@ function Timeline({ items }) {
           />
           <span
             aria-hidden
-            className="absolute top-0 left-0 hidden size-[15px] place-items-center rounded-full border border-accent/60 bg-bg lg:grid"
+            className="absolute top-0 left-0 hidden size-[0.9375rem] place-items-center rounded-full border border-accent/60 bg-bg site-lg:grid"
           >
-            <span className="size-[5px] rounded-full bg-accent" />
+            <span className="size-[0.3125rem] rounded-full bg-accent" />
           </span>
           <div className="surface h-full p-5">
             <span className="text-xs font-medium tracking-wide text-accent tabular-nums">{item.period}</span>
-            <h4 className="mt-2 text-[15px] font-medium tracking-tight">{item.title}</h4>
-            <p className="mt-1.5 text-[13px] leading-relaxed text-muted">{item.description}</p>
+            <h4 className="mt-2 text-[0.9375rem] font-medium tracking-tight">{item.title}</h4>
+            <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">{item.description}</p>
             <p className="mt-4 flex items-center gap-1.5 text-xs text-ink/80">
               <Building2 className="size-3.5 text-subtle" />
               {item.place}
