@@ -1,5 +1,8 @@
 // Constantes compartidas entre el servidor (validación) y el frontend (UI/CMS).
 
+/** Tamaño máximo de subida. Vercel limita el cuerpo de cada petición a 4,5 MB. */
+export const MAX_UPLOAD_MB = 4
+
 export const SKILL_GROUPS = [
   { value: 'AREA', label: 'Habilidades técnicas', hint: 'Medidor circular' },
   { value: 'STACK', label: 'Stack de desarrollo', hint: 'Barra de nivel' },

@@ -132,7 +132,7 @@ R2_PUBLIC_URL="https://pub-xxxxxxxxxxxxxxxx.r2.dev"
 Reinicia y comprueba en `/admin` (abajo a la izquierda) que **Cloudflare R2** dice *Configurado*. Luego sube una imagen de prueba en cualquier proyecto.
 
 Detalles del uploader (`server/r2-uploader.js`):
-- Carpetas: `projects/` y `profile/` (JPG, PNG, WebP, AVIF, GIF) y `documents/` (PDF). Máximo 8 MB.
+- Carpetas: `projects/` y `profile/` (JPG, PNG, WebP, AVIF, GIF) y `documents/` (PDF). Máximo 4 MB (límite de cuerpo de Vercel: 4,5 MB).
 - Nombres únicos (`projects/2026/<uuid>.webp`) con caché inmutable de 1 año.
 - Al reemplazar o borrar una imagen desde el CMS se elimina también de R2.
 - Sin R2 configurado puedes pegar URLs de imagen directamente.
@@ -153,19 +153,20 @@ Las filas se reordenan **arrastrando el asa** (⋮⋮) o, con teclado, enfocando
 
 ---
 
-## 5. Despliegue en producción (un solo servicio Node)
+## 5. Despliegue en producción (Vercel)
 
-Recomendado: **Render** (Web Service), Railway o Fly.io. El mismo proceso sirve la API y la SPA compilada.
+**Producción:** https://portafolio-lukas.vercel.app (proyecto `portafolio-lukas` en Vercel).
 
-| Ajuste | Valor |
-| --- | --- |
-| Build command | `npm install && npm run build && npm run db:deploy` |
-| Start command | `npm start` |
-| Variables | Todas las de tu `.env` + **`NODE_ENV=production`** |
+- **Frontend:** Vite compila a `dist/` y Vercel lo sirve desde su CDN. Toda ruta que no sea `/api` se reescribe a `index.html`, así que `/admin/...` funciona.
+- **API:** `api/index.js` exporta la misma app Express (`server/app.js`) como función serverless en `gru1` (São Paulo, junto a Neon). `vercel.json` reescribe `/api/*` hacia ella.
+- **Prisma:** tras `prisma generate`, `scripts/prisma-to-js.mjs` transpila el cliente generado a JavaScript; Vercel no empaqueta los `.ts` que genera Prisma 7.
+- **Variables:** las 9 del `.env` (sin `PORT`) están en *Project Settings → Environment Variables* (Production). Las secretas, como *Sensitive*. `NODE_ENV=production` lo pone Vercel.
+- **Límites de serverless:** subidas de hasta 4 MB (Vercel admite 4,5 MB por petición). El bloqueo tras 5 PIN incorrectos vive en la memoria de cada instancia, así que es menos estricto que en un servidor fijo.
 
-`NODE_ENV=production` es importante: activa la cookie `Secure` (solo HTTPS). No definas `PORT` en Render: la plataforma lo inyecta.
+**Desplegar:** el repositorio de GitHub está conectado, así que cada `git push` a `main` despliega solo. A mano: `vercel --prod`.
+**Migraciones:** se aplican desde tu equipo con `npm run db:deploy` (usa `DIRECT_URL` del `.env`), nunca desde el build.
 
----
+> Alternativa sin serverless: Render/Railway con `npm install && npm run build && npm run db:deploy` como build y `npm start` (sirve API + `dist/` en un solo proceso).
 
 ## 6. Añadir un campo nuevo (sin tocar el diseño)
 

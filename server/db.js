@@ -1,5 +1,5 @@
 import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from './generated/prisma/client.ts'
+import { PrismaClient } from './generated/prisma/client.js'
 import { env } from './env.js'
 
 // En tiempo de ejecución usamos la URL *pooled* de Neon (host con "-pooler"),

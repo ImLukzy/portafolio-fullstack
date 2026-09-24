@@ -1,6 +1,7 @@
 import express from 'express'
 import multer from 'multer'
 import { ZodError } from 'zod'
+import { MAX_UPLOAD_MB } from '../shared/constants.js'
 import { UploadError } from './r2-uploader.js'
 import adminRoutes from './routes/admin.js'
 import authRoutes from './routes/auth.js'
@@ -12,9 +13,10 @@ export function createApp() {
   app.disable('x-powered-by')
   // Detrás del proxy de Render/Railway/Fly: req.ip será la IP real del visitante.
   app.set('trust proxy', 1)
-  app.use(express.json({ limit: '200kb' }))
 
   const api = express.Router()
+  // Dentro del router: así un JSON mal formado llega a errorHandler (respuesta JSON, sin traza).
+  api.use(express.json({ limit: '200kb' }))
   api.get('/health', (req, res) => res.json({ ok: true }))
   api.use('/', publicRoutes)
   api.use('/auth', authRoutes)
@@ -37,7 +39,7 @@ function errorHandler(error, req, res, next) {
   }
   if (error instanceof multer.MulterError) {
     const tooLarge = error.code === 'LIMIT_FILE_SIZE'
-    return res.status(tooLarge ? 413 : 400).json({ error: tooLarge ? 'El archivo supera 8 MB.' : error.message })
+    return res.status(tooLarge ? 413 : 400).json({ error: tooLarge ? `El archivo supera ${MAX_UPLOAD_MB} MB.` : error.message })
   }
   if (error?.type === 'entity.parse.failed') {
     return res.status(400).json({ error: 'JSON inválido.' })

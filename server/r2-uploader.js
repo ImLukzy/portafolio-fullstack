@@ -10,6 +10,7 @@
  */
 import { randomUUID } from 'node:crypto'
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import { MAX_UPLOAD_MB } from '../shared/constants.js'
 import './env.js'
 
 const EXTENSIONS = {
@@ -28,7 +29,7 @@ export const UPLOAD_FOLDERS = {
   documents: ['application/pdf'],
 }
 
-export const MAX_UPLOAD_BYTES = 8 * 1024 * 1024
+export const MAX_UPLOAD_BYTES = MAX_UPLOAD_MB * 1024 * 1024
 
 function config() {
   const read = (key) => (process.env[key] ?? '').trim()
@@ -81,7 +82,7 @@ export async function uploadToR2({ buffer, contentType, folder }) {
   if (!allowed.includes(contentType)) {
     throw new UploadError(`Tipo de archivo no permitido en "${folder}": ${contentType}`)
   }
-  if (buffer.length > MAX_UPLOAD_BYTES) throw new UploadError('El archivo supera 8 MB.', 413)
+  if (buffer.length > MAX_UPLOAD_BYTES) throw new UploadError(`El archivo supera ${MAX_UPLOAD_MB} MB.`, 413)
 
   const { bucket, publicUrl } = config()
   const key = `${folder}/${new Date().getFullYear()}/${randomUUID()}.${EXTENSIONS[contentType]}`

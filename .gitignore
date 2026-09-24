@@ -17,3 +17,5 @@ Thumbs.db
 
 # Salidas de build de otras herramientas
 build/
+.vercel
+.env*

@@ -4,6 +4,7 @@ import { useId, useRef, useState } from 'react'
 import { cn } from '../components/ui.jsx'
 import { api } from '../lib/api.js'
 import { EASE_OUT, SPRING_SNAPPY } from '../lib/motion.js'
+import { MAX_UPLOAD_MB } from '../../shared/constants.js'
 import { SERVICE_ICON_COMPONENTS } from '../site/sections/Skills.jsx'
 import { useAdmin } from './context.jsx'
 
@@ -298,7 +299,7 @@ function useUpload(folder, onChange) {
 
   const upload = async (file) => {
     if (!file) return
-    if (file.size > 8 * 1024 * 1024) return setError('El archivo supera 8 MB.')
+    if (file.size > MAX_UPLOAD_MB * 1024 * 1024) return setError(`El archivo supera ${MAX_UPLOAD_MB} MB.`)
     setError(null)
     setProgress(0)
     try {

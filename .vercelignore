@@ -1,0 +1,12 @@
+# Nunca subir secretos: en Vercel se configuran como variables de entorno.
+.env
+.env.*
+!.env.example
+
+# Se regeneran en el build de Vercel
+node_modules
+dist
+server/generated
+
+# Sitio estático anterior (no forma parte del despliegue)
+legacy
